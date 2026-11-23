@@ -35,9 +35,50 @@ function updateBoardUI() {
 
 updateBoardUI();
 
+// Selección del elemento DOM del cronómetro
+const timerElement = document.getElementById("timer");
+
+// Variables de estado del tiempo
+let timerRunning = false;
 // 3. Temporizador por Consola
 let secondsElapsed = 0;
 let timerInterval = null;
+
+/**
+ * Formatea los segundos totales a formato MM:SS usando padStart
+ */
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const formattedMinutes = String(minutes).padStart(2, "0");
+  const formattedSeconds = String(seconds).padStart(2, "0");
+
+  return `${formattedMinutes}:${formattedSeconds}`;
+}
+
+/**
+ * Inicia el cronómetro visual de la partida
+ */
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+
+  timerInterval = setInterval(() => {
+    secondsElapsed++;
+    if (timerElement) {
+      timerElement.textContent = formatTime(secondsElapsed);
+    }
+  }, 1000);
+}
+
+/**
+ * Detiene el cronómetro
+ */
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+}
 
 function startConsoleTimer() {
   console.log("[PokéMatch Pro] Iniciando temporizador por consola...");
